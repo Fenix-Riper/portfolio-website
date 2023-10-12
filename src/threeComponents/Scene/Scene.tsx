@@ -2,47 +2,81 @@ import { Html, PointerLockControls } from "@react-three/drei";
 import { useRef } from "react";
 import { Mesh } from "three";
 import { gsap } from "gsap";
+import { ModalToShow } from "../../components/constants/constants";
+import CircleInteractor from "../../components/CircleInteractor/CircleInteractor";
 
 export default function Scene({
   show,
   setShowModal,
+  setModalToShow,
 }: {
   show: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalToShow: React.Dispatch<React.SetStateAction<ModalToShow>>;
 }) {
-  const cube = useRef<Mesh>(null!);
-  const htmlInner = useRef<HTMLDivElement>(null!);
-  const htmlOutter = useRef<HTMLDivElement>(null!);
-  const htmlText = useRef<HTMLDivElement>(null!);
+  const crederaCube = useRef<Mesh>(null!);
+  const lancasterCube = useRef<Mesh>(null!);
+  const htmlInnerCredera = useRef<HTMLDivElement>(null!);
+  const htmlOutterCredera = useRef<HTMLDivElement>(null!);
+  const htmlInnerLancaster = useRef<HTMLDivElement>(null!);
+  const htmlOutterLancaster = useRef<HTMLDivElement>(null!);
+  const htmlTextCredera = useRef<HTMLDivElement>(null!);
+  const htmlTextLancaster = useRef<HTMLDivElement>(null!);
   const controls = useRef(null!);
 
-  function interactAnimationIn() {
-    gsap.to(htmlText.current, { opacity: 0.75 });
-    gsap.to(htmlInner.current, {
-      width: "3.5rem",
-      height: "3.5rem",
-      opacity: 0.3,
-    });
-    gsap.to(htmlOutter.current, {
-      opacity: 0.75,
-    });
+  function interactAnimationIn(
+    htmlInner: React.MutableRefObject<HTMLDivElement>,
+    htmlOutter: React.MutableRefObject<HTMLDivElement>,
+    htmlText: React.MutableRefObject<HTMLDivElement>
+  ) {
+    if (!show) {
+      gsap.to(htmlText.current, { opacity: 0.75 });
+      gsap.to(htmlInner.current, {
+        width: "3.5rem",
+        height: "3.5rem",
+        opacity: 0.3,
+      });
+      gsap.to(htmlOutter.current, {
+        opacity: 0.75,
+      });
+    }
   }
 
-  function interactAnimationOut() {
-    gsap.to(htmlText.current, { opacity: 0 });
-    gsap.to(htmlInner.current, {
-      width: 0,
-      height: 0,
-      opacity: 0,
-    });
-    gsap.to(htmlOutter.current, {
-      opacity: 0,
-    });
+  function interactAnimationOut(
+    htmlInner: React.MutableRefObject<HTMLDivElement>,
+    htmlOutter: React.MutableRefObject<HTMLDivElement>,
+    htmlText: React.MutableRefObject<HTMLDivElement>
+  ) {
+    if (!show) {
+      gsap.to(htmlText.current, { opacity: 0 });
+      gsap.to(htmlInner.current, {
+        width: 0,
+        height: 0,
+        opacity: 0,
+      });
+      gsap.to(htmlOutter.current, {
+        opacity: 0,
+      });
+    }
   }
 
-  const onCubeClick = () => {
+  const onCrederaCubeClick = () => {
+    setModalToShow(ModalToShow.Credera);
     setShowModal(true);
-    interactAnimationOut();
+    interactAnimationOut(htmlInnerCredera, htmlOutterCredera, htmlTextCredera);
+    setTimeout(() => {
+      controls.current.unlock();
+    }, 100);
+  };
+
+  const onLancasterCubeClick = () => {
+    setModalToShow(ModalToShow.Lancaster);
+    setShowModal(true);
+    interactAnimationOut(
+      htmlInnerLancaster,
+      htmlOutterLancaster,
+      htmlTextLancaster
+    );
     setTimeout(() => {
       controls.current.unlock();
     }, 100);
@@ -61,40 +95,67 @@ export default function Scene({
       <directionalLight position={[1, 2, 3]} intensity={5} />
       <ambientLight intensity={0.5} />
       <mesh
-        ref={cube}
+        ref={crederaCube}
         scale={1.5}
         position-x={2}
-        onClick={onCubeClick}
-        onPointerEnter={interactAnimationIn}
-        onPointerLeave={interactAnimationOut}
+        onClick={onCrederaCubeClick}
+        onPointerEnter={() =>
+          interactAnimationIn(
+            htmlInnerCredera,
+            htmlOutterCredera,
+            htmlTextCredera
+          )
+        }
+        onPointerLeave={() =>
+          interactAnimationOut(
+            htmlInnerCredera,
+            htmlOutterCredera,
+            htmlTextCredera
+          )
+        }
+      >
+        <boxGeometry />
+        <meshStandardMaterial color="mediumpurple" />
+        <CircleInteractor
+          htmlInner={htmlInnerCredera}
+          htmlOutter={htmlOutterCredera}
+          htmlText={htmlTextCredera}
+        />
+      </mesh>
+      <mesh
+        ref={lancasterCube}
+        scale={1.5}
+        position-x={-2}
+        onClick={onLancasterCubeClick}
+        onPointerEnter={() =>
+          interactAnimationIn(
+            htmlInnerLancaster,
+            htmlOutterLancaster,
+            htmlTextLancaster
+          )
+        }
+        onPointerLeave={() =>
+          interactAnimationOut(
+            htmlInnerLancaster,
+            htmlOutterLancaster,
+            htmlTextLancaster
+          )
+        }
       >
         <boxGeometry />
         <meshStandardMaterial color="mediumpurple" />
         <Html
-          ref={htmlInner}
+          ref={htmlInnerLancaster}
           position={[0, 0, 0]}
           center
           className={"w-1 h-1 bg-white rounded-full opacity-0"}
           wrapperClass="div"
         ></Html>
-        <Html
-          ref={htmlOutter}
-          position={[0, 0, 0]}
-          center
-          className={
-            "w-14 h-14 border center border-white rounded-full opacity-0"
-          }
-          wrapperClass="div"
-        ></Html>
-        <Html
-          ref={htmlText}
-          position={[0, 0.3, 0]}
-          center
-          className={"w-40 text-center text-white rounded-full opacity-0"}
-          wrapperClass="div"
-        >
-          Click to inspect
-        </Html>
+        <CircleInteractor
+          htmlInner={htmlInnerLancaster}
+          htmlOutter={htmlOutterLancaster}
+          htmlText={htmlTextLancaster}
+        />
       </mesh>
       <mesh position-y={-1} scale={10} rotation-x={-Math.PI * 0.5}>
         <planeGeometry />

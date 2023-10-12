@@ -7,6 +7,7 @@ export default {
         "credera-grey": "#3a3a3a",
         "credera-red": "#e55f4c",
         "credera-white": "#cfcfcf",
+        "lancaster-red": "#b5121b",
       },
     },
   },

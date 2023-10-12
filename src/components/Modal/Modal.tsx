@@ -1,13 +1,17 @@
 import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 import CrederaModal from "../CrederaModal/CrederaModal";
+import LancasterModal from "../LancasterModal.tsx/LancasterModal";
+import { ModalToShow } from "../constants/constants";
 
 export default function Modal({
   show,
   closeModal,
+  modalToShow,
 }: {
   show: boolean;
   closeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  modalToShow: ModalToShow;
 }) {
   const modal = useRef(null!);
   const closeButton = useRef(null!);
@@ -56,7 +60,8 @@ export default function Modal({
           onMouseUp={() => closeButtonInteractionIn()}
           onClick={() => closeModal(false)}
         />
-        <CrederaModal />
+        {modalToShow == ModalToShow.Lancaster ? <LancasterModal /> : ""}
+        {modalToShow == ModalToShow.Credera ? <CrederaModal /> : ""}
       </section>
     </div>
   );
