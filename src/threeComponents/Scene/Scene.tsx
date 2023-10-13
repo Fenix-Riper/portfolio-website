@@ -1,4 +1,4 @@
-import { Html, PointerLockControls } from "@react-three/drei";
+import { PointerLockControls } from "@react-three/drei";
 import { useRef } from "react";
 import { Mesh } from "three";
 import { gsap } from "gsap";
@@ -23,6 +23,25 @@ export default function Scene({
   const htmlTextCredera = useRef<HTMLDivElement>(null!);
   const htmlTextLancaster = useRef<HTMLDivElement>(null!);
   const controls = useRef(null!);
+
+  function cubeRotationUp() {
+    gsap.to(crederaCube.current.position, { duration: 2, y: 2 });
+    gsap.to(crederaCube.current.rotation, { duration: 2, y: Math.PI / 2 });
+  }
+  function cubeRotationDown() {
+    gsap.to(crederaCube.current.position, { duration: 2, y: 0 });
+    gsap.to(crederaCube.current.rotation, { duration: 2, y: 0 });
+  }
+
+  function cubeAnimationIn() {
+    interactAnimationIn(htmlInnerCredera, htmlOutterCredera, htmlTextCredera);
+    cubeRotationUp();
+  }
+
+  function cubeAnimationOut() {
+    interactAnimationOut(htmlInnerCredera, htmlOutterCredera, htmlTextCredera);
+    cubeRotationDown();
+  }
 
   function interactAnimationIn(
     htmlInner: React.MutableRefObject<HTMLDivElement>,
@@ -99,20 +118,8 @@ export default function Scene({
         scale={1.5}
         position-x={2}
         onClick={onCrederaCubeClick}
-        onPointerEnter={() =>
-          interactAnimationIn(
-            htmlInnerCredera,
-            htmlOutterCredera,
-            htmlTextCredera
-          )
-        }
-        onPointerLeave={() =>
-          interactAnimationOut(
-            htmlInnerCredera,
-            htmlOutterCredera,
-            htmlTextCredera
-          )
-        }
+        onPointerEnter={() => cubeAnimationIn()}
+        onPointerLeave={() => cubeAnimationOut()}
       >
         <boxGeometry />
         <meshStandardMaterial color="mediumpurple" />
@@ -144,13 +151,6 @@ export default function Scene({
       >
         <boxGeometry />
         <meshStandardMaterial color="mediumpurple" />
-        <Html
-          ref={htmlInnerLancaster}
-          position={[0, 0, 0]}
-          center
-          className={"w-1 h-1 bg-white rounded-full opacity-0"}
-          wrapperClass="div"
-        ></Html>
         <CircleInteractor
           htmlInner={htmlInnerLancaster}
           htmlOutter={htmlOutterLancaster}
