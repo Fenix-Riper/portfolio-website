@@ -34,7 +34,7 @@ export default function Modal({
   useEffect(() => {
     show
       ? timeline
-          .to(modal.current, { duration: 0, display: "block" })
+          .to(modal.current, { duration: 0, display: "flex" })
           .to(modal.current, { duration: 0.5, opacity: "1" })
       : timeline
           .to(modal.current, { duration: 0.5, opacity: "0" })
@@ -45,23 +45,26 @@ export default function Modal({
     <div
       ref={modal}
       className={
-        "fixed top-0 left-0 w-full h-full bg-gray-300 bg-opacity-30 opacity-0 z-20 block"
+        "fixed inset-0 flex justify-center items-center bg-gray-300 bg-opacity-30 opacity-0 z-10"
       }
     >
-      <section className="relative top-1/2 left-1/2 w-[95vw] h-[95vh] bg-opacity-0 -translate-x-1/2 -translate-y-1/2 rounded-lg z-20">
-        <div className="absolute top-0 left-0 h-7 w-[95vw] bg-white rounded-t-lg z-30" />
+      <section className="w-[95vw] h-[95vh] bg-opacity-0 rounded-lg">
+        <div className="h-[3vh] w-[95vw] bg-white rounded-t-lg">
         <button
           ref={closeButton}
           id="myFirst"
-          className="absolute top-2 left-2 h-3 w-3 bg-red-500 rounded-full z-30"
+          className="relative top-1 left-2 h-3 w-3 bg-red-500 rounded-full z-10"
           onMouseEnter={() => closeButtonInteractionIn()}
           onMouseLeave={() => closeButtonInteractionOut()}
           onMouseDown={() => closeButtonInteractionOut()}
           onMouseUp={() => closeButtonInteractionIn()}
           onClick={() => closeModal(false)}
         />
+        </div>
+        <div className="h-[92vh]">
         {modalToShow == ModalToShow.Lancaster ? <LancasterModal /> : ""}
         {modalToShow == ModalToShow.Credera ? <CrederaModal /> : ""}
+        </div>
       </section>
     </div>
   );
