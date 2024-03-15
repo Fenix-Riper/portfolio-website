@@ -49,21 +49,21 @@ export default function Modal({
       }
     >
       <section className="w-[95vw] h-[95vh] bg-opacity-0 rounded-lg">
-        <div className="h-[3vh] w-[95vw] bg-white rounded-t-lg">
-        <button
-          ref={closeButton}
-          id="myFirst"
-          className="relative top-1 left-2 h-3 w-3 bg-red-500 rounded-full z-10"
-          onMouseEnter={() => closeButtonInteractionIn()}
-          onMouseLeave={() => closeButtonInteractionOut()}
-          onMouseDown={() => closeButtonInteractionOut()}
-          onMouseUp={() => closeButtonInteractionIn()}
-          onClick={() => closeModal(false)}
-        />
+        <div className="h-[3vh] w-[95vw] flex items-center bg-white rounded-t-lg">
+          <button
+            ref={closeButton}
+            id="myFirst"
+            className="relative left-2 h-3 w-3 bg-red-500 rounded-full z-10"
+            onMouseEnter={() => closeButtonInteractionIn()}
+            onMouseLeave={() => closeButtonInteractionOut()}
+            onMouseDown={() => closeButtonInteractionOut()}
+            onMouseUp={() => closeButtonInteractionIn()}
+            onClick={() => closeModal(false)}
+          />
         </div>
         <div className="h-[92vh]">
-        {modalToShow == ModalToShow.Lancaster ? <LancasterModal /> : ""}
-        {modalToShow == ModalToShow.Credera ? <CrederaModal /> : ""}
+          {modalToShow == ModalToShow.Lancaster ? <LancasterModal /> : ""}
+          {modalToShow == ModalToShow.Credera ? <CrederaModal /> : ""}
         </div>
       </section>
     </div>

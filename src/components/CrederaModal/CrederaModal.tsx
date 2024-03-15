@@ -10,70 +10,171 @@ import threejsLogo from "../../assets/threejsLogo.svg";
 
 import { useRef } from "react";
 import gsap from "gsap";
-import { useGSAP } from '@gsap/react'
+import { useGSAP } from "@gsap/react";
 
 import ScrollTrigger from "gsap/src/ScrollTrigger";
-gsap.registerPlugin(ScrollTrigger)
-
+gsap.registerPlugin(ScrollTrigger);
 
 export default function CrederaModal() {
   const logo = useRef(null);
-  const scroller =useRef(null)
-  const trigger =useRef(null)
-  const triggerSlideOne =useRef(null)
-  const uniLife =useRef(null)
-
-  const animation = gsap.timeline()
-  const revealAnimation = gsap.timeline()
+  const scroller = useRef(null);
+  const trigger = useRef(null);
+  const graduateLifeWrapper = useRef(null);
+  const graduateSlides = useRef(null);
+  const graduateDescriptionWrapper = useRef(null);
+  const graduateDescriptionSlideOne = useRef(null);
+  const graduateDescriptionSlideTwo = useRef(null);
+  const graduateDescriptionSlideThree = useRef(null);
+  const graduateDescriptionSlides = [
+    graduateDescriptionSlideOne,
+    graduateDescriptionSlideTwo,
+    graduateDescriptionSlideThree,
+  ];
 
   useGSAP(() => {
-    const currentLogo = logo.current
-    const currentScroller = scroller.current
-    const currentTrigger = trigger.current
-    const currentTriggerSlideOne = triggerSlideOne.current
-    const currentUniLife = uniLife.current
-    
-    revealAnimation.from(currentLogo, {opacity: 0,filter:"blur(8px)", duration:2}).from(currentTrigger, {opacity: 0,filter:"blur(8px)", duration: 1})
+    gsap
+      .timeline()
+      .from(logo.current, { opacity: 0, filter: "blur(8px)", duration: 2 });
+    gsap
+      .timeline()
+      .from(trigger.current, { opacity: 0, filter: "blur(8px)", duration: 2 });
 
-    animation.fromTo(currentLogo, {top:"50%",left:"50%",translateX:"-50%",translateY:"-50%",scale: 4},{top:"0%",left:"0%",translateX:"0%",translateY:"0%",scale:1, scrollTrigger:{
-      trigger:currentTrigger,
-      scroller: currentScroller,
-      scrub: 3,
-      start: 'center 60%',
-      end: 'bottom 40%'
-    }})
+    gsap
+      .timeline({
+        scrollTrigger: {
+          trigger: trigger.current,
+          scroller: scroller.current,
+          scrub: 3,
+          start: "center 60%",
+          end: "bottom 40%",
+        },
+      })
+      .fromTo(
+        logo.current,
+        {
+          top: "50%",
+          left: "50%",
+          translateX: "-50%",
+          translateY: "-50%",
+          scale: 4,
+        },
+        {
+          top: "0%",
+          left: "0%",
+          translateX: "0%",
+          translateY: "0%",
+          scale: 1,
+        }
+      );
+  });
 
-    gsap.from(currentUniLife, {opacity: 0,filter:"blur(8px)", y:-20, scrollTrigger:{
-      trigger:currentTriggerSlideOne,
-      scroller: currentScroller,
-      scrub:2,
-      markers: true,
-      start: 'top 80%',
-      end:'top 10%',
-    }})
-  })
+  useGSAP(() => {
+    gsap.from(graduateSlides.current, {
+      scrollTrigger: {
+        trigger: graduateLifeWrapper.current,
+        scroller: scroller.current,
+        scrub: 2,
+        start: "top 80%",
+        end: "top 10%",
+      },
+      opacity: 0,
+      filter: "blur(8px)",
+      y: -30,
+    });
+  });
+
+  useGSAP(
+    () => {
+      const sections = gsap.utils.toArray(".graduate-description");
+      gsap.to(sections, {
+        scrollTrigger: {
+          trigger: graduateLifeWrapper.current,
+          scroller: scroller.current,
+          scrub: 1,
+          pin: true,
+          markers: true,
+          snap: 1 / 2,
+          end: () => "+=" + graduateDescriptionWrapper.current.offsetWidth,
+        },
+        xPercent: -100 * (sections.length - 1),
+      });
+    },
+    { scope: graduateDescriptionWrapper }
+  );
 
   return (
-    <div id="#smooth-content" className="w-full h-full bg-credera-baby-blue bg-opacity-70 rounded-b-lg overflow-y-auto overflow-x-auto ease-in" ref={scroller}>
+    <div
+      id="#smooth-content"
+      className="w-full h-full bg-credera-baby-blue bg-opacity-70 rounded-b-lg overflow-y-auto overflow-x-auto ease-in no-scrollbar"
+      ref={scroller}
+    >
       <div className="h-1/2 w-full sticky top-0">
         <img src={crederaLogo} className="absolute w-1/4 p-3" ref={logo} />
       </div>
-      <div className="w-full h-[50%] text-center flex justify-center items-center"  ref={trigger}>
-        <h1 className="text-credera-grey text-6xl font-serif w-7/12">
+      <div
+        className="w-full h-[50%] text-center flex justify-center items-center"
+        ref={trigger}
+      >
+        <h1 className="text-credera-grey text-5xl font-serif w-9/12">
           "Embarking on the journey of a{" "}
           <span className="text-credera-red">software engineer</span> is like
-          setting sail in an endless sea of innovation, where every line of
-          code is a <span className="text-credera-red">new horizon</span>
+          setting sail in an endless sea of innovation, where every line of code
+          is a <span className="text-credera-red">new horizon</span>
           waiting to be explored."
         </h1>
       </div>
-      {/* //Here I want to talk about Uni */}
-      <section className="w-full h-full text-center flex justify-center items-center" ref={triggerSlideOne}>
-        <h1 ref={uniLife} className="text-credera-grey text-6xl font-serif w-7/12">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Obcaecati in vitae officia veritatis doloremque nesciunt accusamus quae recusandae sint molestias blanditiis reiciendis tenetur explicabo aliquid mollitia, saepe nobis non dolore!</h1>
-      </section>
-
-      <section className="w-full h-full text-center flex justify-center items-center">
-      </section>
+      {/* //Here I want to talk about graduate */}
+      <div className="h-[500%] w-full pt-24" ref={graduateLifeWrapper}>
+        <div className="flex" ref={graduateSlides}>
+          {/* graduateDescription Section */}
+          <div
+            className="h-1/3 w-8/12 flex overflow-hidden"
+            ref={graduateDescriptionWrapper}
+          >
+            <section className="w-full flex-none items-start pl-5 graduate-description snap-start">
+              <div className="break-words text-credera-grey">
+                <h1 className="text-5xl font-serif">
+                  Graduate Proggramme - September of 2022
+                </h1>
+                <p className="text-2xl">
+                  My first expirience as a{" "}
+                  <span className="text-credera-red">software engineer...</span>
+                </p>
+              </div>
+            </section>
+            <section className="w-full flex-none items-start pl-5 graduate-description snap-start">
+              <div className="break-words text-credera-grey">
+                <h1 className="text-5xl font-serif">
+                  Graduate Proggramme - September of 2022
+                </h1>
+                <p className="text-2xl">
+                  My first expirience as a{" "}
+                  <span className="text-credera-red">software engineer...</span>
+                </p>
+              </div>
+            </section>
+            <section className="w-full flex-none items-start pl-5 graduate-description snap-start">
+              <div className="break-words text-credera-grey">
+                <h1 className="text-5xl font-serif">
+                  Graduate Proggramme - September of 2022
+                </h1>
+                <p className="text-2xl">
+                  My first expirience as a{" "}
+                  <span className="text-credera-red">software engineer...</span>
+                </p>
+              </div>
+            </section>
+          </div>
+          {/* Icons Section */}
+          <div className="h-full w-4/12 flex items-center overflow-x-hidden">
+            <section className="w-full flex-none">
+              <img src={springLogo} className="w-1/2" />
+            </section>
+            <div className="w-full flex-none">fas;dofhsad</div>
+            <div className="w-full flex-none">asjdkfhasd</div>
+          </div>
+        </div>
+      </div>
 
       {/* <div className="pt-5 pb-40 w-full">
         <h2 className="ml-16 text-credera-grey text-6xl font-serif w-1/2">
