@@ -12,6 +12,9 @@ export default {
         "lancaster-red": "#b5121b",
         "lancaster-grey": "#B0B7BC",
       },
+      fontFamily: {
+        azonix: ["Azonix", "sans-serif"],
+      },
     },
   },
   plugins: [],
