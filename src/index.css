@@ -14,3 +14,10 @@ body,
   height: 100%;
   overflow: hidden;
 }
+
+@font-face {
+  font-family: "Azonix";
+  src: local("Azonix"), url(./fonts/Azonix.otf) format("opentype");
+  /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}
