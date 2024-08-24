@@ -1,0 +1,57 @@
+.button-white {
+  background-color: rgba(208, 208, 208, 0.293);
+  color: white;
+}
+
+.top-left {
+  background-color: white;
+  clip-path: polygon(0 0, 15% 0, 15% 2px, 2px 2px, 2px 30%, 0% 30%);
+  position: absolute;
+  top: -2px;
+  left: -2px;
+}
+
+.bottom-left {
+  background-color: white;
+  clip-path: polygon(
+    0 100%,
+    15% 100%,
+    15% calc(100% - 2px),
+    2px calc(100% - 2px),
+    2px 70%,
+    0% 70%
+  );
+  position: absolute;
+  top: 2px;
+  left: -2px;
+}
+
+.top-right {
+  background-color: white;
+  clip-path: polygon(
+    100% 0,
+    85% 0,
+    85% 2px,
+    calc(100% - 2px) 2px,
+    calc(100% - 2px) 30%,
+    100% 30%
+  );
+  position: absolute;
+  top: -2px;
+  left: 2px;
+}
+
+.bottom-right {
+  background-color: white;
+  clip-path: polygon(
+    100% 100%,
+    85% 100%,
+    85% calc(100% - 2px),
+    calc(100% - 2px) calc(100% - 2px),
+    calc(100% - 2px) 70%,
+    100% 70%
+  );
+  position: absolute;
+  top: 2px;
+  left: 2px;
+}

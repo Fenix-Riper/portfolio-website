@@ -15,7 +15,7 @@ import githubLogo from "../../assets/githubLogo.svg";
 
 export default function CrederaModal() {
   return (
-    <div className="relative top-1/2 left-1/2 w-[100%] h-[100%] bg-gray-200 bg-opacity-70 -translate-x-1/2 -translate-y-1/2 rounded-lg z-5 overflow-y-auto overflow-x-auto">
+    <div className="relative top-1/2 left-1/2 w-[100%] h-[100%] bg-gray-200 bg-opacity-70 -translate-x-1/2 -translate-y-1/2 rounded-lg z-5 overflow-y-auto overflow-x-auto overscroll-none">
       <div className="w-full">
         <div className="w-full flex justify-center -mt-20 pl-2 pr-2 pb-2">
           <img src={lancasterLogo} className="w-3/4" />

@@ -9,5 +9,51 @@
   scrollbar-width: none; /* Firefox */
 }
 
-.credera {
+.clip {
+  clip-path: polygon(
+    0 58px,
+    58px 0,
+    100% 0,
+    100% calc(100% - 58px),
+    calc(100% - 58px) 100%,
+    0 100%
+  );
+}
+
+.hub-ui-clip {
+  position: relative;
+  opacity: 65%;
+}
+
+.hub-ui-clip:before {
+  content: "";
+  opacity: 100%;
+  position: absolute;
+  inset: 0;
+  background: #da4040;
+  clip-path: polygon(
+    0 58px,
+    58px 0,
+    100% 0,
+    100% calc(100% - 58px),
+    calc(100% - 58px) 100%,
+    0 100%,
+    0 58px,
+    4px calc(58px + 1.66px),
+    4px calc(100% - 4px),
+    calc(100% - 58px - 1.66px) calc(100% - 4px),
+    calc(100% - 4px) calc(100% - 58px - 1.66px),
+    calc(100% - 4px) 4px,
+    calc(58px + 1.66px) 4px,
+    4px calc(58px + 1.66px)
+  );
+}
+
+.inside-clip {
+  height: calc(100% - 5.66px);
+  width: calc(100% - 5.66px);
+}
+
+.description-text {
+  color: white;
 }
