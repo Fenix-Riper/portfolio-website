@@ -2,7 +2,7 @@ import { gsap } from "gsap";
 import { useEffect, useRef } from "react";
 import CrederaModal from "../CrederaModal/CrederaModal";
 import LancasterModal from "../LancasterModal.tsx/LancasterModal";
-import { ModalToShow } from "../constants/constants";
+import { ModalToShow } from "../../constants/constants";
 
 export default function Modal({
   show,
@@ -13,9 +13,11 @@ export default function Modal({
   closeModal: React.Dispatch<React.SetStateAction<boolean>>;
   modalToShow: ModalToShow;
 }) {
+  if (!show) {
+    return null
+  }
   const modal = useRef(null!);
   const closeButton = useRef(null!);
-  const timeline = gsap.timeline();
 
   function closeButtonInteractionIn() {
     gsap.to(closeButton.current, {
@@ -31,21 +33,11 @@ export default function Modal({
     });
   }
 
-  useEffect(() => {
-    show
-      ? timeline
-          .to(modal.current, { duration: 0, display: "flex" })
-          .to(modal.current, { duration: 0.5, opacity: "1" })
-      : timeline
-          .to(modal.current, { duration: 0.5, opacity: "0" })
-          .to(modal.current, { duration: 0, display: "none" });
-  }, [show, timeline]);
-
   return (
     <div
       ref={modal}
       className={
-        "fixed inset-0 flex justify-center items-center bg-gray-300 bg-opacity-30 opacity-0 z-10"
+        "fixed inset-0 flex justify-center items-center bg-gray-300 bg-opacity-30 z-10"
       }
     >
       <section className="w-[95vw] h-[95vh] bg-opacity-0 rounded-lg">

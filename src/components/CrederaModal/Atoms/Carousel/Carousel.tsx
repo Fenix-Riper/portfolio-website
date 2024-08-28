@@ -16,7 +16,7 @@ export default function Carousel() {
   useGSAP(
     () => {
       const boxes = gsap.utils.toArray(".img-box");
-
+      console.log("Boxes: ", boxes)
       horizontalLoop(boxes, {
         paused: false,
         repeat: -1,

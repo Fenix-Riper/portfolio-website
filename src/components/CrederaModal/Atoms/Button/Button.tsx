@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useGSAP } from "@gsap/react";
 import "./Button.css";
 import { useRef } from "react";
@@ -20,7 +22,7 @@ export default function Button({ textToShow }) {
     });
   };
 
-  useGSAP(() => {});
+  useGSAP(() => { });
 
   return (
     <div

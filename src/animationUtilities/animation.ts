@@ -1,8 +1,24 @@
+// @ts-nocheck
+
 import gsap from "gsap";
 
 /* 
 This helper function makes a group of elements animate along the x-axis in a seamless, responsive loop.
  
+Features:
+- Uses xPercent so that even if the widths change (like if the window gets resized), it should still work in most cases.
+- When each item animates to the left or right enough, it will loop back to the other side
+- Optionally pass in a config object with values like "speed" (default: 1, which travels at roughly 100 pixels per second), paused (boolean),  repeat, reversed, and paddingRight.
+- The returned timeline will have the following methods added to it:
+- next() - animates to the next element using a timeline.tweenTo() which it returns. You can pass in a vars object to control duration, easing, etc.
+- previous() - animates to the previous element using a timeline.tweenTo() which it returns. You can pass in a vars object to control duration, easing, etc.
+- toIndex() - pass in a zero-based index value of the element that it should animate to, and optionally pass in a vars object to control duration, easing, etc. Always goes in the shortest direction
+- current() - returns the current index (if an animation is in-progress, it reflects the final index)
+- times - an Array of the times on the timeline where each element hits the "starting" spot. There's also a label added accordingly, so "label1" is when the 2nd element reaches the start.
+*/
+/*
+This helper function makes a group of elements animate along the x-axis in a seamless, responsive loop.
+
 Features:
 - Uses xPercent so that even if the widths change (like if the window gets resized), it should still work in most cases.
 - When each item animates to the left or right enough, it will loop back to the other side
@@ -41,11 +57,11 @@ export function horizontalLoop(items, config) {
     // convert "x" to "xPercent" to make things responsive, and populate the widths/xPercents Arrays to make lookups faster.
     xPercent: (i, el) => {
       let w = (widths[i] = parseFloat(gsap.getProperty(el, "width", "px")));
+      console.log(widths);
       xPercents[i] = snap(
         (parseFloat(gsap.getProperty(el, "x", "px")) / w) * 100 +
           gsap.getProperty(el, "xPercent")
       );
-
       return xPercents[i];
     },
   });
@@ -63,8 +79,6 @@ export function horizontalLoop(items, config) {
     distanceToStart = item.offsetLeft + curX - startX;
     distanceToLoop =
       distanceToStart + widths[i] * gsap.getProperty(item, "scaleX");
-    console.log("Distance to Start: ", distanceToStart);
-    console.log("Distance to Loop: ", distanceToLoop);
     tl.to(
       item,
       {

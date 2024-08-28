@@ -1,8 +1,10 @@
+// @ts-nocheck
+
 import { PointerLockControls, useGLTF } from "@react-three/drei";
 import { useRef } from "react";
 import { Mesh } from "three";
 import { gsap } from "gsap";
-import { ModalToShow } from "../../components/constants/constants";
+import { ModalToShow } from "../../constants/constants";
 import CircleInteractor from "../../components/CircleInteractor/CircleInteractor";
 
 export default function Scene({

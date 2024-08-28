@@ -10,6 +10,7 @@ import ScrollTrigger from "gsap/src/ScrollTrigger";
 import Carousel from "./Atoms/Carousel/Carousel";
 import { horizontalLoop } from "../../animationUtilities/animation";
 gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(useGSAP);
 
 export default function CrederaModal() {
   const logo = useRef(null);
@@ -213,7 +214,6 @@ export default function CrederaModal() {
     () => {
       const slides = gsap.utils.toArray(".slide");
       const loop = horizontalLoop(slides, {
-        paused: true,
         repeat: -1,
         duration: 1,
         speed: 5,
@@ -226,14 +226,12 @@ export default function CrederaModal() {
           start: "20% bottom",
           end: "bottom 20%",
           onEnter: () => {
-            loop.restart();
             loop.play();
           },
           onLeave: () => {
             loop.pause();
           },
           onEnterBack: () => {
-            loop.restart();
             loop.play();
           },
           onLeaveBack: () => {
@@ -250,9 +248,7 @@ export default function CrederaModal() {
   useGSAP(
     () => {
       const slides = gsap.utils.toArray(".slide");
-      console.log(slides);
       const loop = horizontalLoop(slides, {
-        paused: true,
         repeat: -1,
         duration: 1,
         speed: 5,
@@ -367,7 +363,7 @@ export default function CrederaModal() {
               if (index % 2 == 1) {
                 return (
                   <section
-                    className="flex-none items-start graduate-description bg-black warning slide min-w-2"
+                    className="flex-none items-start graduate-description bg-black warning slide w-auto"
                     key={index}
                   >
                     <h1 className="font-azonix text-credera-red">Graduate</h1>
@@ -376,7 +372,7 @@ export default function CrederaModal() {
               } else {
                 return (
                   <section
-                    className="flex-none items-start graduate-description bg-white slide min-w-2"
+                    className="flex-none items-start graduate-description bg-white slide w-auto"
                     key={index}
                   >
                     <h1 className="font-azonix">Incoming</h1>
