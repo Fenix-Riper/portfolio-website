@@ -1,5 +1,5 @@
 import { gsap } from "gsap";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import CrederaModal from "../CrederaModal/CrederaModal";
 import LancasterModal from "../LancasterModal.tsx/LancasterModal";
 import { ModalToShow } from "../../constants/constants";

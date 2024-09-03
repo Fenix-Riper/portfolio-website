@@ -212,33 +212,66 @@ export default function CrederaModal() {
 
   useGSAP(
     () => {
-      const slides = gsap.utils.toArray(".slide");
-      const loop = horizontalLoop(slides, {
-        repeat: -1,
-        duration: 1,
-        speed: 5,
-      });
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: emptySpace.current,
-          scroller: scroller.current,
-          markers: true,
-          start: "20% bottom",
-          end: "bottom 20%",
-          onEnter: () => {
-            loop.play();
+      document.fonts.ready.then(() => {
+        const slides = gsap.utils.toArray(".slide");
+        const loop = horizontalLoop(slides, {
+          repeat: -1,
+          duration: 1,
+          speed: 5,
+        });
+        gsap.set(graduateWarningBottomWrapper.current, {
+          y: 100,
+          opacity: 0,
+        })
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: emptySpace.current,
+            scroller: scroller.current,
+            start: "20% bottom",
+            end: "bottom 20%",
+            onEnter: () => {
+              loop.play();
+              gsap.fromTo(graduateWarningBottomWrapper.current, {
+                y: 100,
+                opacity: 0,
+              }, {
+                y: 0,
+                opacity: 1,
+              })
+            },
+            onLeave: () => {
+              loop.pause();
+              gsap.fromTo(graduateWarningBottomWrapper.current, {
+                y: 0,
+                opacity: 1,
+              }, {
+                y: 100,
+                opacity: 0,
+              })
+            },
+            onEnterBack: () => {
+              loop.play();
+              gsap.fromTo(graduateWarningBottomWrapper.current, {
+                y: 100,
+                opacity: 0
+              }, {
+                y: 0,
+                opacity: 1,
+              })
+            },
+            onLeaveBack: () => {
+              loop.pause();
+              gsap.fromTo(graduateWarningBottomWrapper.current, {
+                y: 0,
+                opacity: 1,
+              }, {
+                y: 100,
+                opacity: 0,
+              })
+            },
           },
-          onLeave: () => {
-            loop.pause();
-          },
-          onEnterBack: () => {
-            loop.play();
-          },
-          onLeaveBack: () => {
-            loop.pause();
-          },
-        },
-      });
+        })
+      })
     },
     {
       scope: graduateWarningBottomWrapper,
@@ -247,32 +280,72 @@ export default function CrederaModal() {
 
   useGSAP(
     () => {
-      const slides = gsap.utils.toArray(".slide");
-      const loop = horizontalLoop(slides, {
-        repeat: -1,
-        duration: 1,
-        speed: 5,
-      });
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: emptySpace.current,
-          scroller: scroller.current,
-          start: "20% bottom",
-          end: "bottom 20%",
-          onEnter: () => {
-            loop.play();
+      console.log("I've been triggered")
+      document.fonts.ready.then(() => {
+        const slides = gsap.utils.toArray(".slide");
+        const loop = horizontalLoop(slides, {
+          repeat: -1,
+          duration: 1,
+          speed: 5,
+        });
+        gsap.set(graduateWarningTopWrapper.current, {
+          y: -100,
+          opacity: 0,
+        })
+        gsap.timeline({
+          scrollTrigger: {
+            trigger: emptySpace.current,
+            scroller: scroller.current,
+            start: "20% bottom",
+            end: "bottom 20%",
+            onEnter: () => {
+              loop.play();
+              gsap.fromTo(graduateWarningTopWrapper.current, {
+                y: -100,
+                opacity: 0,
+              }, {
+                y: 0,
+                opacity: 1,
+              })
+            },
+            onLeave: () => {
+              loop.pause();
+              gsap.fromTo(graduateWarningTopWrapper.current, {
+                y: 0,
+                opacity: 1,
+              }, {
+                y: -100,
+                opacity: 0,
+
+              })
+            },
+            onEnterBack: () => {
+              loop.play();
+              gsap.fromTo(graduateWarningTopWrapper.current, {
+                y: -100,
+                opacity: 0,
+
+              }, {
+                y: 0,
+                opacity: 1,
+
+              })
+            },
+            onLeaveBack: () => {
+              loop.pause();
+              gsap.fromTo(graduateWarningTopWrapper.current, {
+                y: 0,
+                opacity: 1,
+
+              }, {
+                y: -100,
+                opacity: 0,
+
+              })
+            },
           },
-          onLeave: () => {
-            loop.pause();
-          },
-          onEnterBack: () => {
-            loop.play();
-          },
-          onLeaveBack: () => {
-            loop.pause();
-          },
-        },
-      });
+        });
+      })
     },
     {
       scope: graduateWarningTopWrapper,
@@ -325,7 +398,7 @@ export default function CrederaModal() {
       </div>
       {/* //Here I want to talk about graduate */}
       <div
-        className="sticky top-0 left-0 h-full w-full pt-24 text-8xl overflow-hidden z-0 "
+        className="sticky top-0 left-0 h-full w-full pt-24 text-8xl overflow-hidden z-20 "
         ref={warningsWrapper}
       >
         <div
@@ -337,7 +410,7 @@ export default function CrederaModal() {
               if (index % 2 == 0) {
                 return (
                   <section
-                    className="flex-none bg-black warning slide min-w-2"
+                    className="flex-none bg-black warning slide content w-auto"
                     key={index}
                   >
                     <h1 className="font-azonix text-credera-red">Graduate</h1>
@@ -346,7 +419,7 @@ export default function CrederaModal() {
               } else {
                 return (
                   <section
-                    className="flex-none bg-white warning slide min-w-2"
+                    className="flex-none bg-white warning slide w-auto"
                     key={index}
                   >
                     <h1 className="font-azonix">Incoming</h1>
@@ -356,7 +429,7 @@ export default function CrederaModal() {
             })}
           </div>
           <div
-            className="flex w-full rotate-180"
+            className="flex rotate-180 w-full"
             ref={graduateWarningBottomWrapper}
           >
             {Array.from({ length: 6 }).map((_, index) => {
@@ -385,7 +458,7 @@ export default function CrederaModal() {
       </div>
       <div className=" h-full w-full overflow-hidden" ref={emptySpace}></div>
       <div
-        className="w-full h-full pt-24 grid grid-rows-4 grid-cols-4 gap-4 p-11"
+        className="w-full h-full pt-24 grid grid-rows-4 grid-cols-4 gap-4 p-11 z-10"
         ref={descriptionWrapper}
       >
         <div className="row-span-2 col-span-1 hub-ui-clip flex justify-center items-center overflow-hidden">
